@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: agrimart-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DATABASE_URL
+        value: postgresql://postgres.yivhlkzvlwxaomdvbuzm:GIVgpKYfvIjq515z@aws-1-eu-central-1.pooler.supabase.com:5432/postgres
+      - key: JWT_SECRET
+        value: 7f8a3b2c1d9e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0
+      - key: SUPABASE_URL
+        value: https://yivhlkzvlwxaomdvbuzm.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CORS_ORIGIN
+        value: http://localhost:3000
