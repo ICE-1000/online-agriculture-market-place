@@ -42,7 +42,7 @@ function ChangePasswordContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="narrow">
       <TopBar title="Change Password" />
       <form onSubmit={handleSubmit} className="px-5 py-5">
         <ErrorNote message={error} />

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 export default function TopBar({ title, back = true, right = null }) {
   const router = useRouter();
   return (
-    <div className="sticky top-0 z-20 flex items-center gap-3 border-b border-line bg-bg/95 px-5 py-4 backdrop-blur">
+    <div className="sticky top-0 z-20 flex items-center gap-3 border-b border-line bg-bg/95 px-5 py-4 backdrop-blur md:static md:border-0 md:bg-transparent md:px-0 md:pt-8 md:backdrop-blur-none">
       {back && (
         <button
           onClick={() => router.back()}

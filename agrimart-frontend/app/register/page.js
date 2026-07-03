@@ -52,8 +52,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <AppShell nav={false}>
-      <div className="px-6 pb-10 pt-10">
+    <AppShell nav={false} width="narrow">
+      <div className="px-6 pb-10 pt-10 md:px-0">
         <h1 className="text-center text-[24px] font-extrabold text-ink">Create Account</h1>
         <p className="mt-1 text-center text-[14px] text-muted">Join AgriMart today</p>
 

@@ -39,7 +39,7 @@ function ManageLocationContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="narrow">
       <TopBar title="Manage Location" />
       <form onSubmit={handleSubmit} className="px-5 py-5">
         <ErrorNote message={error} />

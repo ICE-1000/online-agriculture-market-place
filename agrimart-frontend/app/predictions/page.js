@@ -29,7 +29,7 @@ const EXPECT = [
 
 function PredictionsContent() {
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="default">
       <TopBar title="Price Predictions" />
       <div className="px-5 py-5">
         <div className="flex flex-col items-center rounded-card bg-surface px-6 py-10 text-center shadow-card">

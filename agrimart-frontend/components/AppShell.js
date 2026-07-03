@@ -1,12 +1,24 @@
 'use client';
 
-export default function AppShell({ children, nav = true }) {
+import DesktopNav from './DesktopNav';
+
+const WIDTHS = {
+  narrow: 'max-w-md',
+  default: 'max-w-3xl',
+  wide: 'max-w-6xl',
+};
+
+// Full-width responsive shell: fills the browser window on desktop with a
+// top navigation bar, and behaves like a single-column mobile app (with a
+// bottom tab bar rendered by each page) on small screens.
+export default function AppShell({ children, nav = true, width = 'default' }) {
   return (
-    <div className="flex min-h-screen justify-center bg-[#DCE1D6] sm:py-6">
+    <div className="min-h-screen bg-bg">
+      <DesktopNav />
       <div
-        className={`relative w-full max-w-app bg-bg sm:rounded-[28px] sm:shadow-phone ${
-          nav ? 'pb-24' : 'pb-6'
-        } min-h-screen sm:min-h-[812px]`}
+        className={`mx-auto w-full ${WIDTHS[width] || WIDTHS.default} ${
+          nav ? 'pb-24 md:pb-12' : 'pb-6'
+        } md:px-6`}
       >
         {children}
       </div>

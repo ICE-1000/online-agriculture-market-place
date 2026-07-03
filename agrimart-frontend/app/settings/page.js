@@ -34,7 +34,7 @@ function Row({ href, icon, label }) {
 }
 
 function SettingsContent() {
-  const { user, isFarmer, switchViewMode, logout } = useAuth();
+  const { user, isFarmer, logout } = useAuth();
   const router = useRouter();
 
   function handleLogout() {
@@ -43,8 +43,8 @@ function SettingsContent() {
   }
 
   return (
-    <AppShell>
-      <div className="px-5 pb-3 pt-6">
+    <AppShell width="default">
+      <div className="px-5 pb-3 pt-6 md:px-0 md:pt-8">
         <h1 className="text-[20px] font-extrabold text-ink">Settings</h1>
       </div>
 
@@ -65,27 +65,6 @@ function SettingsContent() {
             {isFarmer ? '🏪 Farmer / Supplier' : '🧺 Buyer / Consumer'}
           </span>
         </div>
-      </div>
-
-      <div className="mt-6 px-5">
-        <p className="mb-2 text-[12px] font-bold uppercase tracking-wide text-muted">Simulation</p>
-        <button
-          onClick={switchViewMode}
-          className="flex w-full items-center justify-between rounded-card border-2 border-accent bg-accent-bg px-4 py-4 text-left"
-        >
-          <span className="flex items-center gap-3">
-            <span className="text-lg text-accent">🔄</span>
-            <span>
-              <span className="block text-[14px] font-bold text-ink">
-                Switch to {isFarmer ? 'Buyer' : 'Farmer'} Mode
-              </span>
-              <span className="block text-[12px] text-muted">
-                Currently: {isFarmer ? 'Farmer/Supplier' : 'Buyer/Consumer'}
-              </span>
-            </span>
-          </span>
-          <span className="text-accent">→</span>
-        </button>
       </div>
 
       <div className="mt-6 px-5">

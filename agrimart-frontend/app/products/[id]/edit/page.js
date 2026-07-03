@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import { api, resolveImageUrl } from '@/lib/api';
 import { CATEGORIES, UNITS, AVAILABILITY } from '@/lib/categories';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import AppShell from '@/components/AppShell';
@@ -79,7 +79,7 @@ function EditProductContent() {
 
   if (loading || !form) {
     return (
-      <AppShell nav={false}>
+      <AppShell nav={false} width="narrow">
         <TopBar title="Edit Product" />
         <div className="flex justify-center py-16">
           <Spinner />
@@ -89,7 +89,7 @@ function EditProductContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="narrow">
       <TopBar title="Edit Product" />
       <form onSubmit={handleSubmit} className="px-5 py-5">
         <ErrorNote message={error} />
@@ -102,7 +102,7 @@ function EditProductContent() {
           {imagePreview || form.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={imagePreview || form.imageUrl}
+              src={imagePreview || resolveImageUrl(form.imageUrl)}
               alt="Preview"
               className="h-full w-full object-cover"
             />

@@ -6,10 +6,12 @@ and wired directly to your existing Express/Postgres API (`agri-backend`).
 
 ## Quick start
 
+`.env.local` is already included and pre-configured to point at your live
+backend (`https://online-agriculture-market-place.onrender.com`), so this
+works with zero setup:
+
 ```bash
 npm install
-cp .env.local.example .env.local
-# edit .env.local and point NEXT_PUBLIC_API_URL at your running backend
 npm run dev
 ```
 
@@ -24,16 +26,44 @@ npm start
 
 ## Configuration
 
-`.env.local`:
+`.env.local` (already included, pointing at your live backend):
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_API_URL=https://online-agriculture-market-place.onrender.com
 ```
 
-This should point at your `agri-backend` server (the one with `authRoutes`,
-`productRoutes`, etc.). CORS: make sure `ALLOWED_ORIGINS` in the backend's
-`.env` includes wherever this frontend is served from (e.g.
-`http://localhost:3000`).
+To point at a different backend (e.g. local dev), just edit that value and
+restart `npm run dev`.
+
+**CORS:** make sure `ALLOWED_ORIGINS` in the backend's `.env` includes
+wherever this frontend is actually served from — e.g.
+`http://localhost:3000` for local dev, plus your deployed frontend's URL
+(Vercel/Netlify domain, etc.) once you host it. Without that, the browser
+will block every request with a CORS error even though the URL is correct.
+
+**Render free-tier cold starts:** if the backend has been idle, Render spins
+it down and the first request after a while can take 30–60s to respond
+(you'll see the loading spinner sit there longer than usual). That's the
+backend waking up, not a frontend bug — subsequent requests are fast again.
+
+**Image uploads:** `storage.js` on the backend only uses Supabase Storage if
+`SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` are set; otherwise it falls back to
+writing files to local disk and returns a relative-looking URL built from
+`API_URL`. Two things to check on the backend for images to work correctly
+in production:
+- `API_URL` in the backend's `.env` should be set to
+  `https://online-agriculture-market-place.onrender.com` (not
+  `localhost:5000`) — otherwise uploaded image URLs will point at
+  `localhost` and never load in the browser.
+- Render's filesystem is ephemeral on the free tier — locally-stored uploads
+  can disappear on redeploy/restart. If images vanish after a backend
+  redeploy, that's this, and configuring Supabase Storage is the fix.
+
+On the frontend side, every image goes through `resolveImageUrl()` in
+`lib/api.js`, which turns any relative path the backend returns (e.g.
+`/uploads/products/xyz.jpg`) into a full URL against `NEXT_PUBLIC_API_URL`,
+and `ProductImage` shows a category-icon placeholder — not a broken-image
+icon — if a URL is missing or fails to load.
 
 ## Screens included
 

@@ -31,7 +31,7 @@ export default function SupplierProfilePage() {
 
   if (loading) {
     return (
-      <AppShell nav={false}>
+      <AppShell nav={false} width="default">
         <TopBar title="Supplier Profile" />
         <div className="flex justify-center py-16">
           <Spinner />
@@ -42,7 +42,7 @@ export default function SupplierProfilePage() {
 
   if (!supplier) {
     return (
-      <AppShell nav={false}>
+      <AppShell nav={false} width="default">
         <TopBar title="Supplier Profile" />
         <div className="px-5 py-8">
           <ErrorNote message={error || 'Supplier not found.'} />
@@ -54,7 +54,7 @@ export default function SupplierProfilePage() {
   const active = products.filter((p) => p.availability !== 'sold_out' && p.availability !== 'hidden').length;
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="default">
       <TopBar title="Supplier Profile" />
 
       <div className="flex flex-col items-center px-5 pt-6 text-center">
@@ -101,7 +101,7 @@ export default function SupplierProfilePage() {
         {products.length === 0 ? (
           <EmptyState icon="🌾" title="No products listed" />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

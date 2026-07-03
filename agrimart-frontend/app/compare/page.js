@@ -41,7 +41,7 @@ function ComparisonContent() {
   }, [products]);
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="default">
       <TopBar title="Price Comparison" />
       <div className="px-5 py-4">
         <p className="mb-4 text-[13px] text-muted">

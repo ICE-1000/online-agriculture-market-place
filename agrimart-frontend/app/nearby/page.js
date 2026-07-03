@@ -54,8 +54,8 @@ function NearbyContent() {
   }, [products]);
 
   return (
-    <AppShell>
-      <div className="px-5 pb-3 pt-6">
+    <AppShell width="wide">
+      <div className="px-5 pb-3 pt-6 md:px-0 md:pt-8">
         <h1 className="text-[20px] font-extrabold text-ink">Nearby Farms</h1>
       </div>
 

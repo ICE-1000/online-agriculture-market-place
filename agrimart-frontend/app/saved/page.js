@@ -22,7 +22,7 @@ function SavedContent() {
   }, []);
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="wide">
       <TopBar title="Saved Products" />
       <div className="px-5 py-4">
         {loading ? (
@@ -36,7 +36,7 @@ function SavedContent() {
             message="Tap the heart on a product to save it for later."
           />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

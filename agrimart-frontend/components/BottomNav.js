@@ -70,8 +70,8 @@ export default function BottomNav() {
       ];
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-30 w-full max-w-app -translate-x-1/2 border-t border-line bg-surface px-2 pb-[calc(env(safe-area-inset-bottom)+6px)] pt-2">
-      <div className="flex items-center justify-between">
+    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface px-2 pb-[calc(env(safe-area-inset-bottom)+6px)] pt-2 md:hidden">
+      <div className="mx-auto flex max-w-md items-center justify-between">
         {tabs.map((tab) => {
           const active = pathname === tab.href;
           return (

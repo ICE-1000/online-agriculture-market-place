@@ -65,7 +65,7 @@ function NotificationsContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="narrow">
       <TopBar title="Notifications" />
       <div className="px-5 py-5">
         <ErrorNote message={error} />

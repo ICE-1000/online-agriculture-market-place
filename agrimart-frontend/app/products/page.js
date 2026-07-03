@@ -40,8 +40,8 @@ function ProductsContent() {
   const enriched = useMemo(() => withSupplierNames(products, suppliers), [products, suppliers]);
 
   return (
-    <AppShell>
-      <div className="px-5 pb-3 pt-6">
+    <AppShell width="wide">
+      <div className="px-5 pb-3 pt-6 md:px-0 md:pt-8">
         <h1 className="text-[20px] font-extrabold text-ink">Products</h1>
       </div>
 
@@ -96,7 +96,7 @@ function ProductsContent() {
         ) : enriched.length === 0 ? (
           <EmptyState icon="🔍" title="No products found" message="Try a different search or category." />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {enriched.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

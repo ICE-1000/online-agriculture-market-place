@@ -1,5 +1,19 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://online-agriculture-market-place.onrender.com';
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://online-agriculture-market-place.onrender.com';
 const TOKEN_KEY = 'agrimart_token';
+
+// Product/profile images come back from the backend two ways:
+//  - a full Supabase Storage URL (already absolute — used as-is)
+//  - a relative local-disk path like "/uploads/products/xyz.jpg" (when
+//    Supabase isn't configured on the backend, see storage.js) — this needs
+//    the API host prefixed or the browser will try to load it from the
+//    frontend's own origin and 404.
+export function resolveImageUrl(url) {
+  if (!url) return null;
+  if (/^https?:\/\//i.test(url)) return url;
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return `${API_URL}${path}`;
+}
 
 export function getToken() {
   if (typeof window === 'undefined') return null;

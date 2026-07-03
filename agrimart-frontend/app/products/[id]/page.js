@@ -67,7 +67,7 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <AppShell nav={false}>
+      <AppShell nav={false} width="default">
         <TopBar title="Product Details" />
         <div className="flex justify-center py-16">
           <Spinner />
@@ -78,7 +78,7 @@ export default function ProductDetailsPage() {
 
   if (!product) {
     return (
-      <AppShell nav={false}>
+      <AppShell nav={false} width="default">
         <TopBar title="Product Details" />
         <div className="px-5 py-8">
           <ErrorNote message={error || 'Product not found.'} />
@@ -91,7 +91,7 @@ export default function ProductDetailsPage() {
   const isOwner = user && user.id === product.supplierId;
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="default">
       <TopBar title="Product Details" />
 
       <ProductImage

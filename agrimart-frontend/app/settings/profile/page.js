@@ -47,7 +47,7 @@ function EditProfileContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="narrow">
       <TopBar title="Edit Profile" />
       <form onSubmit={handleSubmit} className="px-5 py-5">
         <ErrorNote message={error} />

@@ -69,7 +69,7 @@ function AddProductContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="narrow">
       <TopBar title="Add Product" />
       <form onSubmit={handleSubmit} className="px-5 py-5">
         <ErrorNote message={error} />

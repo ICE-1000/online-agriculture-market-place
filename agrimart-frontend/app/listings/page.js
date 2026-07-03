@@ -59,7 +59,7 @@ function ListingsContent() {
   }
 
   return (
-    <AppShell nav={false}>
+    <AppShell nav={false} width="default">
       <TopBar title="My Listings" />
       <div className="px-5 py-4">
         <p className="mb-4 text-[13px] text-muted">{products.length} listings</p>

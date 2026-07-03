@@ -37,8 +37,8 @@ function MyFarmContent() {
   }, [products]);
 
   return (
-    <AppShell>
-      <div className="px-5 pb-3 pt-6">
+    <AppShell width="default">
+      <div className="px-5 pb-3 pt-6 md:px-0 md:pt-8">
         <h1 className="text-[20px] font-extrabold text-ink">My Farm</h1>
       </div>
 

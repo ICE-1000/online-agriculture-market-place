@@ -31,15 +31,9 @@ export default function LoginPage() {
     }
   }
 
-  function fillDemo(demoUsername) {
-    setUsername(demoUsername);
-    setPassword('');
-    setError('Demo account credentials pre-filled — enter the password to continue.');
-  }
-
   return (
-    <AppShell nav={false}>
-      <div className="flex flex-col px-6 pb-10 pt-14">
+    <AppShell nav={false} width="narrow">
+      <div className="flex flex-col px-6 pb-10 pt-14 md:px-0 md:pt-20">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-3xl">
             🌾
@@ -82,40 +76,6 @@ export default function LoginPage() {
             Register
           </Link>
         </p>
-
-        <div className="my-8 h-px bg-line" />
-
-        <p className="mb-3 text-center text-[13px] font-medium text-muted">Quick Demo Access</p>
-        <div className="space-y-3">
-          <button
-            type="button"
-            onClick={() => fillDemo('mwansa')}
-            className="flex w-full items-center justify-between rounded-2xl bg-surface px-4 py-3.5 shadow-card"
-          >
-            <span className="flex items-center gap-3 text-left">
-              <span className="text-xl">🏪</span>
-              <span>
-                <span className="block text-[14px] font-semibold text-ink">Login as Farmer</span>
-                <span className="block text-[12px] text-muted">Mwansa Chanda · Chongwe</span>
-              </span>
-            </span>
-            <span className="text-[13px] font-semibold text-primary">LOGIN →</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => fillDemo('joseph')}
-            className="flex w-full items-center justify-between rounded-2xl bg-surface px-4 py-3.5 shadow-card"
-          >
-            <span className="flex items-center gap-3 text-left">
-              <span className="text-xl">🧺</span>
-              <span>
-                <span className="block text-[14px] font-semibold text-ink">Login as Buyer</span>
-                <span className="block text-[12px] text-muted">Joseph Phiri · Lusaka CBD</span>
-              </span>
-            </span>
-            <span className="text-[13px] font-semibold text-primary">LOGIN →</span>
-          </button>
-        </div>
       </div>
     </AppShell>
   );
