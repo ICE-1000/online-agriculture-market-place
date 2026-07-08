@@ -5,8 +5,13 @@ const { NotFoundError, ValidationError, AuthenticationError } = require('../util
 const { deleteFile, parsePublicUrl } = require('../utils/storage');
 
 async function listUsers() {
+  // NOTE: previously this SELECT omitted `username` and `profile_picture`,
+  // so every row came back with username: '' and profilePicture: null
+  // regardless of the real values — silently breaking any feature (like a
+  // map of farmer avatars) that relies on the bulk list having them. See
+  // BUGS_FOUND.md.
   const result = await pool.query(
-    'SELECT id, name, email, phone, role, location, province, joined_date, avatar_color FROM profiles ORDER BY joined_date DESC, name ASC'
+    'SELECT id, username, name, email, phone, role, location, province, profile_picture, joined_date, avatar_color FROM profiles ORDER BY joined_date DESC, name ASC'
   );
   return result.rows.map(toUser);
 }

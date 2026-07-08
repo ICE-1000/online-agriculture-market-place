@@ -279,3 +279,89 @@ Another process is already using port `5000`. Stop that process or change `PORT`
 ### Supabase connection fails
 
 Check the database password, host, port, network access, and SSL settings. The backend uses SSL automatically for non-local database URLs.
+
+# Backend fixes: rate limit + tight price comparison
+
+Two drop-in file replacements for your `agri-backend` repo.
+
+## 1. Rate limiting — extended significantly
+
+**File:** `src/app.js` (full replacement — only the `apiLimiter` block and
+the health-endpoint JSDoc changed; everything else is identical to what
+you had)
+
+Previously: **100 requests per 15 minutes per IP**, shared across every
+route under `/api`. A single page load in the frontend can easily fire
+3–5 requests (products list, users list for supplier name/photo joins,
+saved products, notifications...), so a normal browsing session — not
+abuse — could exhaust that in a few minutes, especially for anyone behind
+a shared office/school IP where multiple people's traffic counts against
+the same bucket.
+
+Now: **2000 requests per 15 minutes per IP** — 20x more headroom, same
+window shape (still recovers over time, still protects against real
+scraping/abuse, since sustained hammering at that volume is still far
+beyond normal use).
+
+If you ever need to go further, the honest options are:
+- Raise `max` again (it's just a number).
+- Split into per-route limits — keep something strict on
+  `POST /api/auth/login` specifically (to slow down password-guessing),
+  and remove/loosen the limit entirely on read-only `GET` endpoints like
+  `/api/products`, which is where normal browsing generates the most
+  volume and carries the least abuse risk.
+- Key the limiter by authenticated user id instead of IP for logged-in
+  requests, so one busy user doesn't affect others in decoding a shared
+  connection.
+
+## 2. Price comparison — now tight (same product, same unit)
+
+**File:** `src/services/productService.js` (full replacement — only
+`compareProducts()` changed)
+
+Previously, `GET /api/products/compare?productId=...` filtered **only by
+category**. That meant viewing "White Maize" (category: grains) could
+show "Rice" or any other grain as a "comparable" price, purely because
+they share a category — not because they're the same product. Comparing
+a per-kg price against a per-50kg-bag price for the same crop is just as
+misleading, and that wasn't filtered either.
+
+Fixed to require **category AND matching name (case-insensitive) AND
+identical unit** — so a comparison is now only ever apples-to-apples:
+same product, same pricing unit, different suppliers.
+
+```diff
+  WHERE category_id = $1
+    AND id != $2
+    AND availability != 'hidden'
++   AND LOWER(name) = LOWER($3)
++   AND unit = $4
+  ORDER BY price ASC
+  LIMIT 20
+```
+
+### Also fixed on the frontend, defensively
+
+I tightened this on the frontend too (`app/products/[id]/page.js` and the
+standalone `app/compare/page.js`), filtering client-side by name + unit
+(and, on the standalone comparison page, category too) before rendering.
+This means the UI is correct even before you deploy this backend fix —
+but deploying this fix is still worth doing, since it's more efficient
+(the database does the filtering instead of fetching up to 20 rows just
+to discard most of them) and keeps the API itself honest for anyone else
+building against it directly.
+
+### One doc tweak if you applied the earlier Swagger update
+
+If you already applied the Swagger overhaul from before, the `/compare`
+endpoint's description there is still accurate (it already said "up to 20
+other listings in the same category, cheapest first") — you may want to
+tighten that wording to "...same category, same name, and same unit" to
+match this fix exactly. Not required for anything to work, just for the
+docs to stay precise.
+
+## Applying this
+
+Copy `src/app.js` and `src/services/productService.js` from this package
+into your repo, overwriting the files at those paths. No other changes
+needed — redeploy as usual.

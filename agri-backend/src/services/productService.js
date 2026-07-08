@@ -137,14 +137,25 @@ async function markSoldOut(id, userId) {
 
 async function compareProducts(productId) {
   const product = await getProductById(productId);
-  
+
+  // NOTE: previously this only filtered by category_id, which meant e.g.
+  // viewing "White Maize" could show "Cabbage" as a "comparable" price
+  // just because both happen to be in the same category. A price
+  // comparison is only meaningful for the *same product in the same unit*
+  // (comparing a per-kg price against a per-50kg-bag price is meaningless
+  // even for the identical crop) — so this now also requires a matching
+  // name (case-insensitive) and an identical unit.
   const result = await pool.query(
     `SELECT id, name, price, unit, supplier_id as "supplierId", location, image_url as "imageUrl"
      FROM products 
-     WHERE category_id = $1 AND id != $2 AND availability != 'hidden'
+     WHERE category_id = $1
+       AND id != $2
+       AND availability != 'hidden'
+       AND LOWER(name) = LOWER($3)
+       AND unit = $4
      ORDER BY price ASC
      LIMIT 20`,
-    [product.categoryId, productId]
+    [product.categoryId, productId, product.name, product.unit]
   );
   
   return {
