@@ -37,9 +37,8 @@ export default function DesktopNav() {
     <div className="sticky top-0 z-30 hidden border-b border-primary-dark bg-primary md:block">
       <div className="flex w-full items-center justify-between gap-6 px-6 py-3 md:px-8 lg:px-12 xl:px-16">
         <Link href="/home" className="flex shrink-0 items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-lg">
-            🌾
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-icon.png" alt="AgriMart" className="h-10 w-10 object-contain" />
           <span className="text-[18px] font-extrabold text-white">AgriMart</span>
         </Link>
 

@@ -32,14 +32,11 @@ export default function LoginPage() {
   }
 
   return (
-    <AppShell nav={false} width="narrow">
+    <AppShell nav={false} width="narrow" background="image">
       <div className="flex flex-col px-6 pb-10 pt-14 md:px-0 md:pt-20">
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-3xl">
-            🌾
-          </div>
-          <h1 className="text-[26px] font-extrabold text-ink">AgriMart</h1>
-          <p className="mt-1 text-[14px] text-muted">Zambia&rsquo;s Agricultural Marketplace</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-full.png" alt="AgriMart" className="h-auto w-64 max-w-full object-contain" />
         </div>
 
         <ErrorNote message={error} />

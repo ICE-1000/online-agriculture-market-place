@@ -54,8 +54,12 @@ export default function RegisterPage() {
   }
 
   return (
-    <AppShell nav={false} width="narrow">
+    <AppShell nav={false} width="narrow" background="image">
       <div className="px-6 pb-10 pt-10 md:px-0">
+        <div className="mb-2 flex flex-col items-center text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-full.png" alt="AgriMart" className="h-auto w-56 max-w-full object-contain" />
+        </div>
         <h1 className="text-center text-[24px] font-extrabold text-ink">Create Account</h1>
         <p className="mt-1 text-center text-[14px] text-muted">Join AgriMart today</p>
 

@@ -11,12 +11,17 @@ import {
 // desktop (only sign-in/registration/short forms stay narrow, via
 // width="narrow"), with a persistent top nav bar. On phones it behaves like
 // a single-column app with a bottom tab bar rendered by each page.
-export default function AppShell({ children, nav = true, width = 'default' }) {
+//
+// background="image" shows the configured photo (lib/background.js) — used
+// only by Login/Register. Every other page uses the plain sage background
+// (background="plain", the default) for a clean, professional look.
+export default function AppShell({ children, nav = true, width = 'default', background = 'plain' }) {
   const narrow = width === 'narrow';
+  const showImage = background === 'image' && BACKGROUND_IMAGE_URL;
 
   return (
     <div className="relative min-h-screen bg-bg">
-      {BACKGROUND_IMAGE_URL && (
+      {showImage && (
         <>
           <div
             className="fixed inset-0 bg-cover bg-center bg-fixed"

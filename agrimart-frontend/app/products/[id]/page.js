@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
@@ -52,6 +52,20 @@ export default function ProductDetailsPage() {
       .then((items) => setSaved(items.some((i) => i.id === id)))
       .catch(() => {});
   }, [user, id]);
+
+  // The backend's /api/products/compare only filters by category, not by
+  // product name or unit — so on its own it would show e.g. "Cabbage" as a
+  // comparison for "White Maize" just because both are in the same
+  // category. Tighten it client-side to only same name + same unit, which
+  // is the only apples-to-apples comparison that actually makes sense.
+  const tightComparable = useMemo(() => {
+    if (!product || !comparison?.comparable) return [];
+    const name = product.name.trim().toLowerCase();
+    const unit = product.unit.trim().toLowerCase();
+    return comparison.comparable.filter(
+      (item) => item.name?.trim().toLowerCase() === name && item.unit?.trim().toLowerCase() === unit
+    );
+  }, [product, comparison]);
 
   async function toggleSave() {
     if (!user) {
@@ -195,11 +209,11 @@ export default function ProductDetailsPage() {
           </Link>
         )}
 
-        {comparison && comparison.comparable && comparison.comparable.length > 0 && (
+        {tightComparable.length > 0 && (
           <div className="mt-6">
             <h3 className="mb-1 text-[16px] font-bold text-ink">Price Comparison</h3>
             <p className="mb-3 text-[13px] text-muted">
-              Other suppliers selling {product.name}
+              Other suppliers selling {product.name} ({product.unit})
             </p>
             <div className="overflow-hidden rounded-card shadow-card">
               <div className="flex items-center justify-between border-l-4 border-primary bg-primary-light px-4 py-3">
@@ -211,7 +225,7 @@ export default function ProductDetailsPage() {
                 </span>
                 <span className="text-[15px] font-bold text-primary">{formatPrice(product.price)}</span>
               </div>
-              {comparison.comparable.map((item) => (
+              {tightComparable.map((item) => (
                 <Link
                   key={item.id}
                   href={`/products/${item.id}`}
